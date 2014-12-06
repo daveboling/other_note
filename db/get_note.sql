@@ -3,7 +3,7 @@ RETURNS TABLE(created_on timestamp, noteTitle varchar, noteBody text, noteTags v
 BEGIN
 
 RETURN QUERY
-  select n.created_at, n.title, n.body, array_agg(DISTINCT t.name) as noteTags, array_agg(p.link)
+  select n.created_at, n.title, n.body, array_agg(DISTINCT t.name) as noteTags, array_agg(DISTINCT p.link)
   FROM notes_tags nt
   INNER JOIN notes n ON n.id = nt.note_id
   INNER JOIN tags t ON t.id = nt.tag_id

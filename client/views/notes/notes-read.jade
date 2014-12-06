@@ -1,1 +1,12 @@
-h3 {{note | json}}
+.top
+  .note-title {{note.notetitle}}
+  .note-create-on {{note.created_on | date}}
+.note-body
+  p {{note.notebody}}
+
+.note-tags
+  ul
+    li(ng-repeat='tag in note.tags') {{tag}}
+
+.photos
+img.image(ng-repeat='link in note.photo_links' ng-src='{{link}}') 

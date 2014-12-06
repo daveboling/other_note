@@ -1,3 +1,4 @@
+/* jshint camelcase:false */
 (function(){
   'use strict';
 
@@ -5,9 +6,9 @@
 
   readNote.controller('ReadNoteCtrl', ['$scope', '$stateParams', 'Note', function($scope, $stateParams, Note){
     $scope.note = {};
+    $scope.photos = [];
     Note.findNote($stateParams.noteId).then(function(res){
-      console.log('stuff');
-      $scope.note = res.data;
+      $scope.note = res.data[0];
     });
   }]);
 })();
