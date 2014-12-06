@@ -6,8 +6,8 @@ function Note(){
 }
 
 Note.create = function(user, obj, cb){
-  obj.tags = formatTags(obj.tags);
-  pg.query('select add_note($1, $2, $3, $4)', [user.id, obj.title, obj.body, obj.tags], function(err, results){
+  obj.tags = formatTags(obj.tags[0]);
+  pg.query('select add_note($1, $2, $3, $4)', [user.id, obj.title[0], obj.body[0], obj.tags], function(err, results){
     cb();
   });
 };
@@ -16,10 +16,7 @@ Note.all = function(user, query, cb){
   pg.query('select * from display_note($2, '+query.limit+', $1)', [query.tagFilter, user.id], cb);
 };
 
-
-
 module.exports = Note;
-
 
 //format tags for less inconsistencies
 function formatTags(tags){

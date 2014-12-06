@@ -1,21 +1,34 @@
 'use strict';
 
-var Joi  = require('joi'),
-    Note = require('../../../models/note');
+var  mp     = require('multiparty'),
+     Note   = require('../../../models/note');
 
 module.exports = {
   description: 'Create a Note',
   tags:['notes'],
-  validate: {
-    payload: {
-      title: Joi.string().required(),
-      body: Joi.string().required(),
-      tags: Joi.string().required()
-    }
+  payload: {
+        maxBytes:209715200,
+        output:'stream',
+        parse: false
   },
+  // validate: {
+  //   payload: {
+  //     title: Joi.string().required(),
+  //     body: Joi.string().required(),
+  //     tags: Joi.string().required()
+  //   }
+  // },
   handler: function(request, reply){
-    Note.create(request.auth.credentials, request.payload, function(err, note){
-      reply();
+
+    var form = new mp.Form();
+    form.parse(request.payload, function(err, fields, files){
+      console.log(fields);
+      console.log(files);
+      Note.create(request.auth.credentials, fields, function(err, note){
+        reply();
+      });
     });
+
+
   }
 };

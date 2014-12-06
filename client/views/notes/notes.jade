@@ -3,4 +3,6 @@ h1 NOTES
 input(type='text', ng-model='note.title')
 input(type='text', ng-model='note.body')
 input(type='text', ng-model='note.tags')
+button(ng-file-select ng-model="files" multiple="true") Attach Photos
 button(ng-click='create(note)') Create
+h2 {{file.length}}
