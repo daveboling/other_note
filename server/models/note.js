@@ -33,7 +33,11 @@ Note.create = function(user, obj, images, cb){
 };
 
 Note.all = function(user, query, cb){
-  pg.query('select * from display_note($2, '+query.limit+', $1)', [query.tagFilter, user.id], cb);
+  pg.query('select * from display_notes($2, '+query.limit+', $1)', [query.tagFilter, user.id], cb);
+};
+
+Note.findOne = function(noteId, cb){
+  pg.query('select * from get_note($1)', [noteId], cb);
 };
 
 module.exports = Note;

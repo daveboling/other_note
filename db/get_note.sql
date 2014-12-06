@@ -1,6 +1,15 @@
---Basic retrieving on note and its respective S3 links
-select n.title, n.body, array_agg(p.link)
-from photos p
-inner join notes n on n.id = p.note_id
-where n.id = p.note_id
-group by n.title, n.body;
+CREATE or REPLACE FUNCTION get_note(noteId integer)
+RETURNS TABLE(created_on timestamp, noteTitle varchar, noteBody text, noteTags varchar[]) AS $$
+BEGIN
+
+RETURN QUERY
+  select n.created_at, n.title, n.body, array_agg(DISTINCT t.name) as noteTags
+  FROM notes_tags nt
+  INNER JOIN notes n ON n.id = nt.note_id
+  INNER JOIN tags t ON t.id = nt.tag_id
+  INNER JOIN photos p ON p.note_id = n.id
+  WHERE n.id = noteId
+  GROUP BY n.created_at, n.title, n.body;
+
+END;
+$$ LANGUAGE plpgsql;

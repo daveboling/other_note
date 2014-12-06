@@ -11,6 +11,6 @@ table#notes
     td Tags
   tr(ng-repeat='row in notes')
     td {{row.created_on | date}}
-    td {{row.notetitle}}
+    td: a(href='' ng-click='displayNote(row.noteid)') {{row.notetitle}}
     td {{row.notebody}}
     td: .tag(ng-repeat='tag in row.notetags'): a(href='', ng-click='filterTag(tag)') {{tag}}
