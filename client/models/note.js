@@ -9,7 +9,7 @@
     }
 
     function noteIndex(query){
-      return $http.get('/notes?limit=' + query.limit);
+      return $http.get('/notes?limit=' + query.limit + '&tagFilter=' + query.tagFilter);
     }
 
 

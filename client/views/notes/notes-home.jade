@@ -1,7 +1,7 @@
 form(novalidate name='queryForm')
   label # Per Page
   input(type='number' ng-model='query.limit')
-button(ng-click='noteIndex()') Submit
+button(ng-click='noteIndex(query)') Submit
 
 table#notes
   tr
@@ -10,7 +10,7 @@ table#notes
     td Body
     td Tags
   tr(ng-repeat='row in notes')
-    td {{row.created_at | date:'MM/dd/yyyy @ h:mma'}}
-    td {{row.title}}
-    td {{row.body}}
-    td {{row.tags}}
+    td {{row.created_on | date}}
+    td {{row.notetitle}}
+    td {{row.notebody}}
+    td: .tag(ng-repeat='tag in row.notetags'): a(href='', ng-click='filterTag(tag)') {{tag}}
