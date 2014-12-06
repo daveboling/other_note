@@ -1,9 +1,9 @@
 CREATE or REPLACE FUNCTION get_note(noteId integer)
-RETURNS TABLE(created_on timestamp, noteTitle varchar, noteBody text, noteTags varchar[]) AS $$
+RETURNS TABLE(created_on timestamp, noteTitle varchar, noteBody text, noteTags varchar[], photo_links varchar[]) AS $$
 BEGIN
 
 RETURN QUERY
-  select n.created_at, n.title, n.body, array_agg(DISTINCT t.name) as noteTags
+  select n.created_at, n.title, n.body, array_agg(DISTINCT t.name) as noteTags, array_agg(p.link)
   FROM notes_tags nt
   INNER JOIN notes n ON n.id = nt.note_id
   INNER JOIN tags t ON t.id = nt.tag_id
