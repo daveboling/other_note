@@ -1,7 +1,12 @@
 'use strict';
 
 var pg     = require('../postgres/manager'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    bucket = process.env.AWS_BUCKET,
+    AWS    = require('aws-sdk'),
+    s3     = new AWS.S3(),
+    async  = require('async');
+
 
 function Note(){
 }
@@ -16,8 +21,12 @@ Note.create = function(user, obj, images, cb){
   }
 
   //save notes, tags, photos to the database!
-  pg.query('select add_note($1, $2, $3, $4, $5)', [user.id, obj.title[0], obj.body[0], obj.tags, awsLinks], function(err, results){
-    cb();
+  pg.query('select add_note($1, $2, $3, $4, $5)', [user.id, obj.title[0], obj.body[0], obj.tags, awsLinks.links], function(err, results){
+    if(awsLinks){
+      uploadFilesToS3(images.file, awsLinks, cb);
+    }else{
+      cb();
+    }
   });
 
 };
@@ -40,5 +49,16 @@ function reformatAwsFiles(images){
   links = images.map(function(f){
     return 'https://s3.amazonaws.com/' + process.env.AWS_BUCKET + '/' + folder + '/' + f.originalFilename;
   });
-  return links;
+  return {links: links, folder: folder};
+}
+
+function uploadFilesToS3(images, awsLinks, cb){
+  var index = 0;
+  async.forEach(images, function(file, callback){
+    if((/^image/).test(file.headers['content-type'])){ //if it's an image, upload it
+      var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: file.path, ACL: 'public-read'};
+      index++;
+      s3.putObject(params, callback);
+    }else { callback(null); } //if it wasn't an image, callback with nothing
+  }, cb); //when done, callback to Note.create where it was called
 }
