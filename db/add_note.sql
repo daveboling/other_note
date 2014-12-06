@@ -1,4 +1,4 @@
-create or replace function add_note (user_id integer, title varchar, body text, tags varchar)
+create or replace function add_note (user_id integer, title varchar, body text, tags varchar, awsLinks varchar[])
 returns integer AS $$
 declare
 
@@ -6,6 +6,7 @@ declare
   tid integer;
   names varchar[];
   tagname varchar;
+  bucket varchar;
 
 begin
 
@@ -31,6 +32,12 @@ begin
     end if;
   end loop;
 
+  -- looping over all the awsLinks and saving to the photo table
+  foreach bucket in array awsLinks
+  loop
+      insert into photos (link, note_id) values (bucket, nid);
+  end loop; 
+
   -- take the temp table and insert it into the join table
   insert into notes_tags select t.nid, t.tid from tagger t;
   -- return the note id
@@ -38,3 +45,4 @@ begin
 
 end;
 $$ language plpgsql;
+

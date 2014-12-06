@@ -11,20 +11,10 @@ module.exports = {
         output:'stream',
         parse: false
   },
-  // validate: {
-  //   payload: {
-  //     title: Joi.string().required(),
-  //     body: Joi.string().required(),
-  //     tags: Joi.string().required()
-  //   }
-  // },
   handler: function(request, reply){
-
     var form = new mp.Form();
     form.parse(request.payload, function(err, fields, files){
-      console.log(fields);
-      console.log(files);
-      Note.create(request.auth.credentials, fields, function(err, note){
+      Note.create(request.auth.credentials, fields, files, function(err, note){
         reply();
       });
     });
