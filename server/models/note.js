@@ -5,7 +5,8 @@ var pg     = require('../postgres/manager'),
     bucket = process.env.AWS_BUCKET,
     AWS    = require('aws-sdk'),
     s3     = new AWS.S3(),
-    async  = require('async');
+    async  = require('async'),
+    fs     = require('fs');
 
 
 function Note(){
@@ -56,9 +57,11 @@ function uploadFilesToS3(images, awsLinks, cb){
   var index = 0;
   async.forEach(images, function(file, callback){
     if((/^image/).test(file.headers['content-type'])){ //if it's an image, upload it
-      var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: file.path, ACL: 'public-read'};
-      index++;
-      s3.putObject(params, callback);
+      fs.readFile(file.path, function(err, body){ //open the file with fs in order get the file to upload to s3
+        var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: body, ACL: 'public-read'};
+        index++;
+        s3.putObject(params, callback);
+      });
     }else { callback(null); } //if it wasn't an image, callback with nothing
   }, cb); //when done, callback to Note.create where it was called
 }

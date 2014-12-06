@@ -50,6 +50,8 @@ function download(url, file, cb){
   var s3 = new AWS.S3();
 
   request({url: url, encoding: null}, function(err, response, body){
+    console.log('____BODY_____', body);
+    console.log('____FILE_____', file);
     var params = {Bucket: process.env.AWS_BUCKET, Key: file, Body: body, ACL: 'public-read'};
     s3.putObject(params, cb);
   });
