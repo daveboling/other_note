@@ -15,4 +15,4 @@ table#notes
     td {{row.created_on | date}}
     td: a(href='' ng-click='displayNote(row.noteid)') {{row.notetitle}}
     td {{row.notebody}}
-    td: .tag(ng-repeat='tag in row.notetags'): a(href='', ng-click='filterTag(tag)') {{tag}}
+    td: .tag(ng-repeat='tag in row.notetags'  ng-hide='tag === "default"'): a(href='', ng-click='filterTag(tag)') {{tag}}

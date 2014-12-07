@@ -45,4 +45,3 @@ begin
 
 end;
 $$ language plpgsql;
-

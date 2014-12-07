@@ -9,4 +9,4 @@
     li(ng-repeat='tag in note.tags') {{tag}}
 
 .photos
-img.image(ng-repeat='link in note.photo_links' ng-src='{{link}}') 
+img.image(ng-repeat='link in note.photo_links' ng-hide='link === "none"' ng-src='{{link}}') 

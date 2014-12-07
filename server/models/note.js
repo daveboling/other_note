@@ -13,20 +13,18 @@ function Note(){
 }
 
 Note.create = function(user, obj, images, cb){
-  var awsLinks = [];
-  obj.tags = formatTags(obj.tags[0]);
+  var awsLinks = {links: ['none']};
+  obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
+
 
   //images array, post id
   if(images.file){
     awsLinks = reformatAwsFiles(images.file);
   }
+
   //save notes, tags, photos to the database!
   pg.query('select add_note($1, $2, $3, $4, $5)', [user.id, obj.title[0], obj.body[0], obj.tags, awsLinks.links], function(err, results){
-    if(awsLinks.length){
-      uploadFilesToS3(images.file, awsLinks, cb);
-    }else{
-      cb();
-    }
+    uploadFilesToS3(images.file, awsLinks, cb);
   });
 
 };
@@ -57,13 +55,17 @@ function reformatAwsFiles(images){
 }
 
 function uploadFilesToS3(images, awsLinks, cb){
+  if(!images){return cb();}
   var index = 0;
   async.forEach(images, function(file, callback){
     if((/^image/).test(file.headers['content-type'])){ //if it's an image, upload it
       fs.readFile(file.path, function(err, body){ //open the file with fs in order get the file to upload to s3
         var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: body, ACL: 'public-read'};
         index++;
-        s3.putObject(params, callback);
+        s3.putObject(params, function(err){
+          console.log('S3 UPLOAD RESULT: ', err);
+          callback(null);
+        });
       });
     }else { callback(null); } //if it wasn't an image, callback with nothing
   }, cb); //when done, callback to Note.create where it was called

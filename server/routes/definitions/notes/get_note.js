@@ -16,7 +16,9 @@ module.exports = {
     mode: 'try'
   },
   handler: function(request, reply){
+    console.log(request.params.noteId);
     Note.findOne(request.params.noteId, function(err, note){
+      console.log(err, note);
       reply(note.rows);
     });
   }
