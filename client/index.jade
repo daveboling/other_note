@@ -5,7 +5,7 @@ html.no-js(ng-app='hapi-auth', lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title NoteTaker
+    title(ng-cloak) other_note {{currentState}}
     link(rel='stylesheet', href='/vendor/foundation/css/normalize.css')
     link(rel='stylesheet', href='/vendor/foundation/css/foundation.css')
     link(rel='stylesheet', href='/vendor/fontawesome/css/font-awesome.css')
@@ -30,6 +30,7 @@ html.no-js(ng-app='hapi-auth', lang='en')
     script(src='/models/user.js')
     script(src='/models/note.js')
     script(src='/views/users/users.js')
+    script(src='/views/home/home.js')
     script(src='/views/notes/notes.js')
     script(src='/views/notes/notes-home.js')
     script(src='/views/notes/notes-read.js')

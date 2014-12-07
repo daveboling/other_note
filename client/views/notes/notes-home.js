@@ -2,7 +2,8 @@
   'use strict';
   var notesHome = angular.module('hapi-auth');
 
-  notesHome.controller('NotesHomeCtrl', ['$scope', '$state', 'Note', function($scope, $state, Note){
+  notesHome.controller('NotesHomeCtrl', ['$scope', '$state', '$rootScope', 'Note', function($scope, $state, $rootScope, Note){
+    $rootScope.currentState = 'Browse Notes';
     $scope.query = {limit: 30, tagFilter: 'all', pageOffset: 0};
     $scope.notes = [];
     $scope.pages = [];

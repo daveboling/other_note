@@ -3,6 +3,7 @@
 
   angular.module('hapi-auth')
   .controller('NotesCtrl', ['$rootScope', '$scope', '$state', '$upload', 'Note', function($rootScope, $scope, $state, $upload,Note){
+    $rootScope.currentState = 'Create Note';
     $scope.note = {};
     $scope.files = [];
     $scope.create = function(note){
