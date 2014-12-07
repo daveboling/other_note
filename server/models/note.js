@@ -20,10 +20,9 @@ Note.create = function(user, obj, images, cb){
   if(images.file){
     awsLinks = reformatAwsFiles(images.file);
   }
-
   //save notes, tags, photos to the database!
   pg.query('select add_note($1, $2, $3, $4, $5)', [user.id, obj.title[0], obj.body[0], obj.tags, awsLinks.links], function(err, results){
-    if(awsLinks){
+    if(awsLinks.length){
       uploadFilesToS3(images.file, awsLinks, cb);
     }else{
       cb();
@@ -33,7 +32,7 @@ Note.create = function(user, obj, images, cb){
 };
 
 Note.all = function(user, query, cb){
-  pg.query('select * from display_notes($2, '+query.limit+', $1)', [query.tagFilter, user.id], cb);
+  pg.query('select * from display_notes($1, $2, $3, $4)', [user.id, query.limit, query.tagFilter, query.pageOffset], cb);
 };
 
 Note.findOne = function(noteId, cb){

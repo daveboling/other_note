@@ -3,13 +3,15 @@ form(novalidate name='queryForm')
   input(type='number' ng-model='query.limit')
 button(ng-click='noteIndex(query)') Submit
 
+ul(style='list-style: none; display: inline; margin-left: 5px')
+  li(ng-repeat='p in pages'): a(href='' ng-click='changePage(p.offset)'){{p.pageNum}}
 table#notes
   tr
     td Date Created
     td Title
     td Body
     td Tags
-  tr(ng-repeat='row in notes')
+  tr(ng-repeat='row in notes | limitTo: 5')
     td {{row.created_on | date}}
     td: a(href='' ng-click='displayNote(row.noteid)') {{row.notetitle}}
     td {{row.notebody}}

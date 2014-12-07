@@ -9,7 +9,7 @@
     }
 
     function noteIndex(query){
-      return $http.get('/notes?limit=' + query.limit + '&tagFilter=' + query.tagFilter);
+      return $http.get('/notes?limit=' + query.limit + '&tagFilter=' + query.tagFilter + '&pageOffset=' + query.pageOffset);
     }
 
     function findNote(noteId){
