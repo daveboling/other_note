@@ -1,18 +1,20 @@
-form(novalidate name='queryForm')
-  label # Per Page
-  input(type='number' ng-model='query.limit')
-button(ng-click='noteIndex(query)') Submit
-
-ul(style='list-style: none; display: inline; margin-left: 5px')
-  li(ng-repeat='p in pages'): a(href='' ng-click='changePage(p.offset)'){{p.pageNum}}
-table#notes
-  tr
-    td Date Created
-    td Title
-    td Body
-    td Tags
-  tr(ng-repeat='row in notes | limitTo: 5')
-    td {{row.created_on | date}}
-    td: a(href='' ng-click='displayNote(row.noteid)') {{row.notetitle}}
-    td {{row.notebody}}
-    td: .tag(ng-repeat='tag in row.notetags'  ng-hide='tag === "default"'): a(href='', ng-click='filterTag(tag)') {{tag}}
+.row
+  .columns.small-2
+    .queryOptions
+      form(novalidate name='queryForm')
+        label # Limit
+        input(type='number' ng-model='query.limit')
+        button(ng-click='noteIndex(query)') Submit
+  .columns.small-10
+    .pagination-center
+      ul.pagination(style='list-style: none; display: inline; margin-left: 5px')
+        li(ng-repeat='p in pages'): a(href='' ng-click='changePage(p.offset)'){{p.pageNum}}
+      table#notes
+        tr
+          td Date Created
+          td Title
+          td Tags
+        tr(ng-repeat='row in notes | limitTo: 5')
+          td {{row.created_on | date}}
+          td: a(href='' ng-click='displayNote(row.noteid)') {{row.notetitle}}
+          td: .tag(ng-repeat='tag in row.notetags'  ng-hide='tag === "default"'): a(href='', ng-click='filterTag(tag)') {{tag}}
