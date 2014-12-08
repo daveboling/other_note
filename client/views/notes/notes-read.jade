@@ -1,12 +1,20 @@
-.top
-  .note-title {{note.notetitle}}
-  .note-create-on {{note.created_on | date}}
-.note-body
-  p {{note.notebody}}
 
-.note-tags
-  ul
-    li(ng-repeat='tag in note.tags') {{tag}}
+.row.softMargin
+  .columns.small-2
+  .columns.small-8.small-centered
+    .top.border_lightgray.softMargin
+      h5.header <strong>Title</strong>
+      hr.small_line
+      .note-title {{note.notetitle}}
+      .note-create-on {{note.created_on | date}}
+    .note-body.border_lightgray.softMargin
+      p {{note.notebody}}
+    .note-tags.border_lightgray.softMargin
+      h5.header <strong>Tags</strong>
+      hr.small_line
+      ul(style='list-style: none;')
+        li(ng-repeat='tag in note.notetags' ng-hide='tag === "default"') {{tag}}
 
-.photos
-img.image(ng-repeat='link in note.photo_links' ng-hide='link === "none"' ng-src='{{link}}') 
+    .photos
+    img.image(ng-repeat='link in note.photo_links' ng-hide='link === "none"' ng-src='{{link}}') 
+  .columns.small-2
