@@ -12,6 +12,7 @@ function Note(){
 }
 
 Note.create = function(user, obj, images, cb){
+  console.log(user, obj);
   var awsLinks = {links: ['none']};
   obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
 
