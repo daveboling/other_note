@@ -12,9 +12,16 @@ function Note(){
 }
 
 Note.create = function(user, obj, images, cb){
-  console.log(user, obj);
+  console.log('tags: ' + obj.tags);
+  if(obj.tags){
+    console.log('hit');
+    obj.tags = formatTags(obj.tags[0]);
+  }else{
+    obj.tags = 'default';
+  }
+
   var awsLinks = {links: ['none']};
-  obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
+  //obj.tags = formatTags(obj.tags[0]) : 'default';
 
 
   //images array, post id
