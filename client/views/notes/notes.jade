@@ -8,13 +8,16 @@
       textarea(type='text', ng-model='note.body')
       label Tags
       input(type='text', ng-model='note.tags')
+
   .columns.small-2
-    h5(ng-show='files.length') {{files.length}} Photo(s) Added
-    .filenames
-      .file(ng-repeat='f in files') {{f.name}}
+
+
 .row
   .small-4.columns 
   .small-4.small-centered.columns 
     button(ng-file-select ng-model="files" multiple="true") Attach Photos
     button(ng-click='create(note)') Create
+    h5(ng-show='files.length') {{files.length}} Photo(s) Added
+      .filenames
+       .file(ng-repeat='f in files') {{f.name}}
   .small-4-4.columns
