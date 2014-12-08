@@ -8,7 +8,6 @@ var pg     = require('../postgres/manager'),
     async  = require('async'),
     fs     = require('fs');
 
-
 function Note(){
 }
 

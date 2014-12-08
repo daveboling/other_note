@@ -1,4 +1,3 @@
-
 .row.softMargin
   .columns.small-2
   .columns.small-8.small-centered
@@ -16,5 +15,5 @@
         li(ng-repeat='tag in note.notetags' ng-hide='tag === "default"') {{tag}}
 
     .photos
-    img.image(ng-repeat='link in note.photo_links' ng-hide='link === "none"' ng-src='{{link}}') 
+    a(ng-repeat='link in note.photo_links' ng-hide='link === "none"' href='{{link}}'): img.image(ng-src='{{link}}') 
   .columns.small-2
