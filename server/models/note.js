@@ -12,16 +12,8 @@ function Note(){
 }
 
 Note.create = function(user, obj, images, cb){
-  console.log('tags: ' + obj.tags);
-  if(obj.tags){
-    console.log('hit');
-    obj.tags = formatTags(obj.tags[0]);
-  }else{
-    obj.tags = 'default';
-  }
-
   var awsLinks = {links: ['none']};
-  //obj.tags = formatTags(obj.tags[0]) : 'default';
+  obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
 
 
   //images array, post id
@@ -64,7 +56,7 @@ function reformatAwsFiles(images){
 function uploadFilesToS3(images, awsLinks, cb){
   if(!images){return cb();}
   var index = 0;
-  async.forEachLimit(images, 1, function(file, callback){
+  async.forEach(images, function(file, callback){
     if((/^image/).test(file.headers['content-type'])){ //if it's an image, upload it
       fs.readFile(file.path, function(err, body){ //open the file with fs in order get the file to upload to s3
         var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: body, ACL: 'public-read'};
