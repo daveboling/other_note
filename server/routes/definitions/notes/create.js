@@ -7,9 +7,9 @@ module.exports = {
   description: 'Create a Note',
   tags:['notes'],
   payload: {
-        maxBytes:209715200,
+        maxBytes:4194304, //2^22 ; 4MB
         output:'stream',
-        parse: false
+        parse: false //need to be true, research this
   },
   handler: function(request, reply){
     var options = {uploadDir: __dirname + '../../../../../temp'},
