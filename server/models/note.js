@@ -64,7 +64,7 @@ function reformatAwsFiles(images){
 function uploadFilesToS3(images, awsLinks, cb){
   if(!images){return cb();}
   var index = 0;
-  async.forEach(images, function(file, callback){
+  async.forEachLimit(images, 1, function(file, callback){
     if((/^image/).test(file.headers['content-type'])){ //if it's an image, upload it
       fs.readFile(file.path, function(err, body){ //open the file with fs in order get the file to upload to s3
         var params = {Bucket: bucket, Key: awsLinks.folder + '/' + file.originalFilename, Body: body, ACL: 'public-read'};

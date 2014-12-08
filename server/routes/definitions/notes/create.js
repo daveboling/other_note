@@ -7,7 +7,7 @@ module.exports = {
   description: 'Create a Note',
   tags:['notes'],
   payload: {
-        maxBytes:209715200, //need to limit by 4mb
+        maxBytes:4194304, //need to limit by 4mb
         output:'stream',
         parse: false //need to be true
   },
