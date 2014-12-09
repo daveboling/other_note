@@ -3,7 +3,7 @@
 ####A note taking application built on the NASH stack. 
 - Node
 - Angular
-- SQL
+- PostgreSQL
 - Hapi
 - Amazon S3
 - Heroku Deployment
