@@ -15,7 +15,6 @@ Note.create = function(user, obj, images, cb){
   var awsLinks = {links: ['none']};
   obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
 
-
   //images array, post id
   if(images.file){
     awsLinks = reformatAwsFiles(images.file);
@@ -23,6 +22,7 @@ Note.create = function(user, obj, images, cb){
 
   //save notes, tags, photos to the database!
   pg.query('select add_note($1, $2, $3, $4, $5)', [user.id, obj.title[0], obj.body[0], obj.tags, awsLinks.links], function(err, results){
+    console.log(err);
     uploadFilesToS3(images.file, awsLinks, cb);
   });
 

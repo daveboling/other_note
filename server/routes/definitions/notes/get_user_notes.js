@@ -17,7 +17,6 @@ module.exports = {
   handler: function(request, reply){
     console.log(request.query);
     Note.all(request.auth.credentials, request.query, function(err, notes){
-      console.log(err, notes);
       if(!err){
         reply(notes.rows);
       }else{

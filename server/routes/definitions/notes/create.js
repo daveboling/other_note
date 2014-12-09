@@ -16,6 +16,7 @@ module.exports = {
     form = new mp.Form(options);
     form.parse(request.payload, function(err, fields, files){
       Note.create(request.auth.credentials, fields, files, function(err, note){
+        console.log(err);
         reply();
       });
     });
