@@ -1,9 +1,14 @@
-#Other-note
+[other_note]:https://ancient-bastion-2733.herokuapp.com/#/
+##other_note - The other other white note.
+####A note taking application built on the NASH stack. 
+- Node
+- Angular
+- SQL
+- Hapi
+- Amazon S3
+- Heroku Deployment
+##Demo Website: [other_note]
 
--A note taking application built on the NASH stack. 
-
-Node, Angular, SQL, Hapi
-
-Demo Website: https://young-reaches-5155.herokuapp.com/#/
-
-*This is still very much a work-in-progress.
+License
+----
+MIT
