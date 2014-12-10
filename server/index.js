@@ -2,7 +2,10 @@
 
 var Hapi         = require('hapi'),
   server         = new Hapi.Server('0.0.0.0', process.env.PORT, {
-    cors: true
+    cors: {
+      origin: ['http://localhost:8100'],//no wildcards, just allow one person
+      credentials: true//will force it to take the cookie
+    }
   }),
   routes         = require('./routes/config/routes'),
   plugins        = require('./routes/config/plugins'),

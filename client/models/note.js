@@ -16,7 +16,6 @@
       return $http.get('/notes/read/' + noteId);
     }
 
-
     return {create:create, noteIndex: noteIndex, findNote: findNote};
   }]);
 })();
