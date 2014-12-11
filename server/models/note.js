@@ -11,6 +11,7 @@ var pg     = require('../postgres/manager'),
 function Note(){
 }
 
+
 Note.create = function(user, obj, images, cb){
   var awsLinks = {links: ['none']};
   obj.tags = obj.tags ? formatTags(obj.tags[0]) : 'default';
@@ -34,6 +35,21 @@ Note.all = function(user, query, cb){
 
 Note.findOne = function(noteId, cb){
   pg.query('select * from get_note($1)', [noteId], cb);
+};
+
+Note.addPhoto = function(image, noteId, cb){
+  var buf = new Buffer(image, 'base64'),
+  rdmFileName = crypto.randomBytes(32).toString('hex') + '.png', //random folder generated based on userame
+  amzLink = 'https://s3.amazonaws.com/' + process.env.AWS_BUCKET + '/' + rdmFileName,
+  params = {Bucket: bucket, Key: rdmFileName, Body: buf, ACL: 'public-read'};
+
+
+  pg.query('insert into photos (link, note_id) values ($1, $2);', [amzLink, noteId], function(err, result){
+    s3.putObject(params, function(err){
+      console.log('S3 UPLOAD RESULT: ', err);
+      cb(amzLink);
+    });
+  });
 };
 
 module.exports = Note;

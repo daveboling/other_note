@@ -1,0 +1,4 @@
+//PORTFOLIO TO DO
+fix project backgrounds
+jq waypoints and logos
+take out section 3
