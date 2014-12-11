@@ -5,6 +5,9 @@ var Hapi         = require('hapi'),
     cors: {
       origin: ['http://localhost:8100'],//no wildcards, just allow one person
       credentials: true//will force it to take the cookie
+    },
+    timeout: {
+      client: 20000
     }
   }),
   routes         = require('./routes/config/routes'),
